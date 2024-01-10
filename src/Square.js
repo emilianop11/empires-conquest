@@ -6,12 +6,12 @@ const Square = ({ pieces, onClick, type, onPieceDoubleClick }) => {
     gold: 'yellow',
     food: 'red',
     wood: 'brown',
-    none: 'transparent' // Default color for empty tiles
+    none: 'lightgrey' // Default color for empty tiles
   };
 
   // Determine the background color based on the resource type
   const squareStyle = {
-    backgroundColor: colorMap[type] || 'transparent',
+    backgroundColor: colorMap[type] || 'lightgrey',
   };
 
   // Function to render the individual pieces in the square
