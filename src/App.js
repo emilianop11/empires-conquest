@@ -69,6 +69,15 @@ const App = () => {
     }
   };
 
+  const removePiece = (index, piece) => {
+    const newBoardElements = [...boardElements];
+    
+    // Remove the specified piece from the tile at the given index
+    newBoardElements[index].pieces = newBoardElements[index].pieces.filter(p => p !== piece);
+
+    setBoardElements(newBoardElements);
+  };
+
   const movePiece = (newIndex) => {
     const newBoardElements = [...boardElements];
     const piece = newBoardElements[selectedPieceIndex];
@@ -128,7 +137,7 @@ const App = () => {
       </div>
 
       <div className="game-layout">
-        <GameBoard boardElements={boardElements} tilesTypes={tilesTypes} onSquareClick={handleSquareClick} />
+        <GameBoard boardElements={boardElements} tilesTypes={tilesTypes} onSquareClick={handleSquareClick} onPieceDoubleClick={removePiece}/>
         <Sidebar onElementClick={handleElementClick} setHoverInfo={setHoverInfo} />
         <ContextBox info={hoverInfo} />
       </div>

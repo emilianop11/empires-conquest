@@ -4,7 +4,7 @@ import React from 'react';
 import Square from './Square';
 import './GameBoard.css';
 
-const GameBoard = ({ boardElements, onSquareClick, tilesTypes }) => {
+const GameBoard = ({ boardElements, onSquareClick, tilesTypes, onPieceDoubleClick }) => {
   return (
     <div className="board">
       {boardElements.map((tile, index) => (
@@ -14,6 +14,7 @@ const GameBoard = ({ boardElements, onSquareClick, tilesTypes }) => {
           resourceType={tile.resourceType}
           onClick={() => onSquareClick(index)}
           type={tilesTypes[index]}
+          onPieceDoubleClick={(piece) => onPieceDoubleClick(index, piece)}
         />
       ))}
     </div>

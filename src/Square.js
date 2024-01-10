@@ -1,7 +1,7 @@
 import React from 'react';
 import './Square.css';
 
-const Square = ({ pieces, onClick, type }) => {
+const Square = ({ pieces, onClick, type, onPieceDoubleClick }) => {
   const colorMap = {
     gold: 'yellow',
     food: 'red',
@@ -17,9 +17,20 @@ const Square = ({ pieces, onClick, type }) => {
   // Function to render the individual pieces in the square
   const renderPieces = () => {
     return pieces.map((piece, index) => {
-      // Assuming each 'piece' object has properties like 'player' and 'pieceType'
-      const colorClass = piece.player === 'Player 1' ? 'black' : 'white';
-      return <div key={index} className={`piece ${colorClass}`}>{piece.type}</div>;
+      return (
+        <div key={index} 
+             className={`piece ${piece.player === 'Player 1' ? 'black' : 'white'}`} 
+             onClick={(e) => {
+               e.stopPropagation(); // Prevent triggering square's onClick
+               onClick && onClick(piece);
+             }}
+             onDoubleClick={(e) => {
+               e.stopPropagation(); // Prevent triggering square's onClick
+               onPieceDoubleClick && onPieceDoubleClick(piece);
+             }}>
+          {piece.type}
+        </div>
+      );
     });
   };
 
