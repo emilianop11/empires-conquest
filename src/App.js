@@ -12,7 +12,10 @@ const App = () => {
   const [playerOneResources, setPlayerOneResources] = useState({ gold: 0, food: 0, wood: 0 });
   const [playerTwoResources, setPlayerTwoResources] = useState({ gold: 0, food: 0, wood: 0 });
   const [selectedElement, setSelectedElement] = useState(null);
-  const [boardElements, setBoardElements] = useState(Array(64).fill(''));
+  const [boardElements, setBoardElements] = useState(Array(64).fill().map(() => ({
+    pieces: [], // Each tile starts with an empty array of pieces
+    resourceType: 'none' // Default resource type
+  })));
   const [tilesTypes, setTilesTypes] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState('Player 1');
   const [selectedPieceIndex, setSelectedPieceIndex] = useState(null);
@@ -28,8 +31,7 @@ const App = () => {
   };
 
   const handleElementClick = (element) => {
-    const elementPrefix = currentPlayer === 'Player 1' ? 'P' : 'K';
-    setSelectedElement(elementPrefix + element);
+    setSelectedElement({ type: element, player: currentPlayer });
     setSelectedPieceIndex(null);
   };
 
@@ -43,11 +45,12 @@ const App = () => {
 
   const placeElement = (index) => {
     const newBoardElements = [...boardElements];
-    newBoardElements[index] += selectedElement; // Append the element
+    newBoardElements[index].pieces.push(selectedElement); // Append the new element
     setBoardElements(newBoardElements);
     setSelectedElement(null);
     setSelectedPieceIndex(null);
   };
+  
 
   const selectOrMovePiece = (index) => {
     // Check if we have a piece selected for moving
@@ -131,7 +134,7 @@ const App = () => {
       </div>
 
       {selectedElement && (
-        <div className="selected-element">Selected: {selectedElement}</div>
+        <div className="selected-element">Selected: {JSON.stringify(selectedElement)}</div>
       )}
 
       <div className="player-cards bottom">
