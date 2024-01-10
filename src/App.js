@@ -53,40 +53,33 @@ const App = () => {
   
 
   const selectOrMovePiece = (index) => {
-    // Check if we have a piece selected for moving
     if (selectedPieceIndex !== null) {
-      // Move the piece if the selected square is different from the target square
-      if (selectedPieceIndex !== index) {
-        movePiece(index);
-      }
-      // Deselect the piece if the same square is clicked again
+      // If a different square is selected, place the piece there
+      movePiece(index);
       setSelectedPieceIndex(null);
+      setSelectedElement(null);
     } else {
-      // Select the piece if the square is not empty
-      if (boardElements[index]) {
+      if (boardElements[index].pieces.length > 0) {
+        // Select the piece and immediately remove it from its current location
+        setSelectedElement(boardElements[index].pieces[0]);
+        removePiece(index);
         setSelectedPieceIndex(index);
       }
     }
   };
 
-  const removePiece = (index, piece) => {
+  const removePiece = (index) => {
     const newBoardElements = [...boardElements];
-    
-    // Remove the specified piece from the tile at the given index
-    newBoardElements[index].pieces = newBoardElements[index].pieces.filter(p => p !== piece);
-
+    newBoardElements[index].pieces = newBoardElements[index].pieces.filter((_, i) => i !== 0); // Remove the first piece
     setBoardElements(newBoardElements);
   };
 
   const movePiece = (newIndex) => {
     const newBoardElements = [...boardElements];
-    const piece = newBoardElements[selectedPieceIndex];
-    newBoardElements[selectedPieceIndex] = newBoardElements[selectedPieceIndex].replace(piece, '');
-    newBoardElements[newIndex] += piece;
+    newBoardElements[newIndex].pieces.push(selectedElement);
     setBoardElements(newBoardElements);
-    setSelectedPieceIndex(null);
-    setSelectedElement(null);
   };
+  
 
   const togglePlayer = () => {
     setCurrentPlayer(currentPlayer === 'Player 1' ? 'Player 2' : 'Player 1');
