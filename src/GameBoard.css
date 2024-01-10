@@ -1,0 +1,7 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, 100px); /* 8 columns, each 100px wide */
+    grid-gap: 5px;
+    justify-content: center; /* Center the board horizontally */
+  }
+  

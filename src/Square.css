@@ -1,0 +1,46 @@
+.square {
+    width: 100px; /* Double width */
+    height: 50px;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .piece {
+    width: 30px; /* Adjust size if needed */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    border-radius: 50%; /* Circular pieces */
+  }
+  
+  .piece.black {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .piece.white {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .square.gold {
+    background-color: yellow !important;
+  }
+  
+  .square.food {
+    background-color: red !important;;
+  }
+  
+  .square.wood {
+    background-color: brown !important;;
+  }
+  
+  .square.none {
+    background-color: transparent;
+  }
+  

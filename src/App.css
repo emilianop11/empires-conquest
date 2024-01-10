@@ -1,0 +1,82 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; /* Full viewport height */
+  padding: 10px;
+}
+
+.player-cards {
+  display: flex;
+  justify-content: center; /* Center align by default */
+  margin-bottom: 20px;
+}
+
+/* Add a specific class or use a selector for bottom cards */
+.player-cards.bottom {
+  justify-content: flex-start; /* Align to the left */
+}
+
+.top {
+  align-self: flex-start; /* Stick to the top */
+}
+
+.game-layout {
+  display: flex;
+  align-items: start; /* Align the game board and sidebar */
+}
+
+.selected-element {
+  position: fixed;
+  bottom: 50px; /* Adjust as needed */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%);
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.turn-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+
+.resources-box {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #000;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.player-resources {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.player-resources h3 {
+  margin-right: 10px;
+}
+
+.player-resources div {
+  display: flex;
+}
+
+.player-resources label {
+  margin-right: 10px;
+}
+
+.player-resources input {
+  width: 40px; /* Adjust the width to fit two digits comfortably */
+  text-align: center;
+}

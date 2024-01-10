@@ -1,0 +1,8 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-left: 1px solid #000;
+    /* Add more styling as needed */
+  }
+  
