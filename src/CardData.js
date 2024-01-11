@@ -20,5 +20,5 @@ export class CardData {
     new CardData("Archer's Aim", "Spawns an archer on the board. Requires Archery", { food: 1, wood: 1 }, "image_archers_aim.png"),
     new CardData("Tactical Relocation", "Moves a military unit by three tiles.", { food: 1 }, "image_tactical_relocation.png"),
     new CardData("Strategic Advance", "Moves a military unit by four tiles.", { food: 2 }, "image_strategic_advance.png"),
-    new CardData("Pawn's Creation", "Spawns a pawn on the board.", {}, "image_pawns_creation.png"),
+    new CardData("Pawn's Creation", "Spawns a pawn on the board.", { food: 1 }, "image_pawns_creation.png"),
   ];
