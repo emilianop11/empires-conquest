@@ -6,6 +6,7 @@ import './App.css';
 import ContextBox from './ContextBox';
 import { cards } from './CardData';
 
+const NGROK_WEBSOCKET_URL = ""
 const App = () => {
 
   const [playerOneHand, setPlayerOneHand] = useState([]);
@@ -131,7 +132,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    const newWs = new WebSocket('ws://localhost:8080');
+    const newWs = new WebSocket(NGROK_WEBSOCKET_URL || 'ws://localhost:8080' );
   
     newWs.onopen = () => {
       console.log('Connected to WebSocket server');
