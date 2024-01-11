@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import GameBoard from './GameBoard';
 import Sidebar from './Sidebar';
 import Card from './Card';
@@ -7,6 +7,7 @@ import ContextBox from './ContextBox';
 import { cards } from './CardData';
 
 const App = () => {
+
   const [playerOneHand, setPlayerOneHand] = useState([]);
   const [playerTwoHand, setPlayerTwoHand] = useState([]);
   const [playerOneResources, setPlayerOneResources] = useState({ gold: 0, food: 0, wood: 0 });
@@ -20,6 +21,48 @@ const App = () => {
   const [currentPlayer, setCurrentPlayer] = useState('Player 1');
   const [selectedPieceIndex, setSelectedPieceIndex] = useState(null);
   const [hoverInfo, setHoverInfo] = useState('');
+  const [ws, setWs] = useState(null);
+  const lastSentState = useRef();
+
+  const serializeGameState = () => {
+    return JSON.stringify({
+      boardElements,
+      currentPlayer,
+      playerOneResources,
+      playerTwoResources,
+      playerOneHand,
+      playerTwoHand,
+      tilesTypes
+      // Include other necessary state parts
+    });
+  };
+
+  // Deserialize game state from JSON and update local state
+  const deserializeGameState = (jsonState) => {
+
+    const state = JSON.parse(jsonState);
+    setBoardElements(state.boardElements);
+    setCurrentPlayer(state.currentPlayer);
+    setPlayerOneResources(state.playerOneResources);
+    setPlayerTwoResources(state.playerTwoResources);
+    setPlayerOneHand(state.playerOneHand);
+    setPlayerTwoHand(state.playerTwoHand);
+    setTilesTypes(state.tilesTypes)
+    // Update other state parts as necessary
+  };
+
+  // Function to handle game state changes
+  const onGameStateChange = () => {
+    const currentState = serializeGameState();
+    if (ws && ws.readyState === WebSocket.OPEN && currentState !== lastSentState.current) {
+      ws.send(currentState);
+      lastSentState.current = currentState;
+    }
+  };
+
+  useEffect(() => {
+    onGameStateChange();
+  }, [boardElements, currentPlayer, playerOneResources, playerTwoResources, playerOneHand, playerTwoHand])
 
   const handleCardClick = (cardId, player) => {
     // Filter out the clicked card by its unique ID
@@ -88,6 +131,37 @@ const App = () => {
   };
 
   useEffect(() => {
+    const newWs = new WebSocket('ws://localhost:8080');
+  
+    newWs.onopen = () => {
+      console.log('Connected to WebSocket server');
+      setWs(newWs);
+    };
+  
+    newWs.onmessage = (event) => {
+      try {
+        if (typeof event.data === 'string') {
+          const incomingState = event.data;
+          if (incomingState !== serializeGameState()) {
+            deserializeGameState(incomingState);
+          }
+        } else {
+          console.error("Received data is not a string:", event.data);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+  
+    newWs.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+      setWs(null);
+    };
+  
+    return () => newWs.close();
+  }, []);
+
+  useEffect(() => {
     // Function to randomly pick cards
     // Function to generate a unique ID - simple version
     const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -101,8 +175,8 @@ const App = () => {
     };
 
     // Distribute 7 cards to each player
-    setPlayerOneHand(pickRandomCards(20));
-    setPlayerTwoHand(pickRandomCards(20));
+    setPlayerOneHand(pickRandomCards(40));
+    setPlayerTwoHand(pickRandomCards(40));
 
     const initializeTilesTypes = () => {
       return Array(64).fill().map(() => {
