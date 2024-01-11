@@ -13,7 +13,7 @@ const ContextBox = ({ info }) => {
           {info.range && <span>Range: {info.range}</span>}
         </div>
       )}
-      <div className="context-image-placeholder"></div>
+      <img className="context-image-placeholder" src={"img/"+info.image}/>
       {info.cost && <div className="context-cost">Cost: {info.cost}</div>}
     </div>
   );
