@@ -6,7 +6,7 @@ import './App.css';
 import ContextBox from './ContextBox';
 import { cards } from './CardData';
 
-const NGROK_WEBSOCKET_URL = ""
+const NGROK_WEBSOCKET_URL = "wss://acf0-190-195-9-69.ngrok-free.app"
 const App = () => {
 
   const [playerOneHand, setPlayerOneHand] = useState([]);
