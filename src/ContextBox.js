@@ -2,6 +2,7 @@ import React from 'react';
 import './ContextBox.css';
 
 const ContextBox = ({ info }) => {
+  if (!info) return;
   return (
     <div className="context-box">
       {info.name && <div className="context-name">{info.name}</div>}
