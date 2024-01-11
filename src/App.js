@@ -25,6 +25,31 @@ const App = () => {
   const [ws, setWs] = useState(null);
   const lastSentState = useRef();
 
+  const orderCards = (cards) => {
+    const keywords = ["spawn", "construct", "move"];
+  
+    // Sort cards by checking if the description contains any of the keywords
+    return cards.sort((a, b) => {
+      let aIndex = keywords.findIndex(keyword => a.description.toLowerCase().includes(keyword));
+      let bIndex = keywords.findIndex(keyword => b.description.toLowerCase().includes(keyword));
+      aIndex = aIndex === -1 ? keywords.length : aIndex;
+      bIndex = bIndex === -1 ? keywords.length : bIndex;
+      return aIndex - bIndex;
+    });
+  };
+  
+  // Function to randomly pick cards and assign a unique ID to each, then order them
+  const pickAndOrderCards = (num) => {
+    // Randomly pick cards
+    let pickedCards = Array.from({ length: num }, () => {
+      const card = cards[Math.floor(Math.random() * cards.length)];
+      return { ...card, id: Math.random().toString(36).substr(2, 9) };
+    });
+  
+    // Order the picked cards
+    return orderCards(pickedCards);
+  };
+
   const serializeGameState = () => {
     return JSON.stringify({
       boardElements,
@@ -167,17 +192,9 @@ const App = () => {
     // Function to generate a unique ID - simple version
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
-    // Function to randomly pick cards and assign a unique ID to each
-    const pickRandomCards = (num) => {
-      return Array.from({ length: num }, () => {
-        const card = cards[Math.floor(Math.random() * cards.length)];
-        return { ...card, id: generateId() };
-      });
-    };
-
     // Distribute 7 cards to each player
-    setPlayerOneHand(pickRandomCards(40));
-    setPlayerTwoHand(pickRandomCards(40));
+    setPlayerOneHand(pickAndOrderCards(40));
+    setPlayerTwoHand(pickAndOrderCards(40));
 
     const initializeTilesTypes = () => {
       return Array(64).fill().map(() => {
