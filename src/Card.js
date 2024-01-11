@@ -2,6 +2,9 @@ import React from 'react';
 import './Card.css';
 
 const Card = ({ cardInfo, onClick, setHoverInfo }) => {
+  const getInitials = (name) => {
+    return name.split(' ').map(word => word[0]).join('');
+  };
   return (
     <div className="card" 
       onClick={onClick}
@@ -14,7 +17,7 @@ const Card = ({ cardInfo, onClick, setHoverInfo }) => {
       })}
     onMouseLeave={() => setHoverInfo('')}
     >
-      {cardInfo.name.length}
+      {getInitials(cardInfo.name)}
     </div>
   );
 };
